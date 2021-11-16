@@ -1,9 +1,20 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { Fragment, useState } from 'react';
 import { StyleSheet, Text, View,TextInput,TouchableHighlight, Alert , ScrollView,FlatList } from 'react-native';
+import { Super } from './Super';
+import AppLoading from 'expo-app-loading';
+import { useFonts } from 'expo-font';
 
 export default function App() {
 
+  const [loaded] = useFonts({
+    'M-PLUS-Code-Latin': require('./assets/fonts/static/MPLUSCodeLatin/MPLUSCodeLatin-Regular.ttf')
+  });
+
+
+  const [supermercado, setsuper] = useState(true)
+
+  if (!loaded) return <AppLoading/>
 
   const [lista, setLista] = useState([])
 
@@ -46,7 +57,7 @@ export default function App() {
 
    }
 
-   console.log('lista',lista)
+  //  console.log('lista',lista)
 
 
   return (
@@ -54,8 +65,10 @@ export default function App() {
     
     
     <ScrollView style={styles.container}>
-   
-    <Text style={styles.titulo}>Lista de Compras</Text>
+
+      {supermercado ? <> 
+      
+        <Text style={styles.titulo}>Lista de Compras</Text>
     
     <View style={styles.añadir}>
 
@@ -69,7 +82,7 @@ export default function App() {
     onPress={añadirProducto}
     
     style={styles.button}>
-      <Text> Agregar </Text>
+      <Text style={{fontFamily:'M-PLUS-Code-Latin'}} > Agregar </Text>
     </TouchableHighlight>
 
     </View>
@@ -83,7 +96,7 @@ export default function App() {
     renderItem={data => {
 
       const {producto,id} = data.item
-      console.log(data)
+      // console.log(data)
       return (
         
 
@@ -111,11 +124,26 @@ export default function App() {
     keyExtractor={item => item.id}
     />
 
-  </View>  : null
+        </View>  : null
   }
+      
+      
+      
+        </> : <Super/> }
+   
+    
+    
+  
+        <TouchableHighlight
+        onPress={() => setsuper(!supermercado)}
+        
+        style={styles.buttonSuper}>
+          <Text style={{textAlign:'center', fontFamily:'M-PLUS-Code-Latin'}} > {supermercado ? 'Ver Supermercados' : 'Ir a la Lista'} </Text>
+        </TouchableHighlight>
 
     
-      
+
+
     </ScrollView>
     
     
@@ -134,6 +162,7 @@ const styles = StyleSheet.create({
     marginTop:60,
     fontSize:20,
     textAlign: 'center',
+    fontFamily:'M-PLUS-Code-Latin'
 
   },
 
@@ -159,6 +188,15 @@ const styles = StyleSheet.create({
     height:40
     // marginTop:10
   },
+  buttonSuper:{
+    justifyContent:'center',
+    backgroundColor:'pink',
+    height:40,
+    marginTop:20,
+    
+  
+    // marginTop:10
+  },
 
   lista: {
     marginTop:20,
@@ -170,7 +208,8 @@ const styles = StyleSheet.create({
 
   textoLista:{
     fontSize:19,
-    marginBottom:10
+    marginBottom:10,
+    fontFamily:'M-PLUS-Code-Latin'
 
   },
 

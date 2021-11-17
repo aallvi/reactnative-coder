@@ -14,7 +14,7 @@ export default function App() {
 
   const [supermercado, setsuper] = useState(true)
 
-  if (!loaded) return <AppLoading/>
+  
 
   const [lista, setLista] = useState([])
 
